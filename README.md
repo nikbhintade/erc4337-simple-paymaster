@@ -1,66 +1,60 @@
-## Foundry
+# ERC4337 Simple Paymaster
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+This repository provides an ERC4337-compatible paymaster built with Foundry. The paymaster allows users to execute transactions without paying for validation and execution themselves.
 
-Foundry consists of:
+## Key Features
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+- Extends `BasePaymaster` from `account-abstraction`.
+- Uses ECDSA signatures to verify that the paymaster should cover the cost of a transaction.
+- Includes unit and integration tests with 100% coverage.
 
-## Documentation
+## Installation
 
-https://book.getfoundry.sh/
+Make sure Foundry is installed on your system. If not, check Foundry's documentation for installation steps.
 
-## Usage
-
-### Build
-
-```shell
-$ forge build
+Clone the repository:
+```bash
+git clone git@github.com:nikbhintade/erc4337-simple-paymaster.git
+cd erc4337-simple-paymaster
 ```
 
-### Test
-
-```shell
-$ forge test
+Install dependencies with Soldeer:
+```bash
+forge soldeer install
 ```
 
-### Format
-
-```shell
-$ forge fmt
+Build the project:
+```bash
+forge build
 ```
 
-### Gas Snapshots
-
-```shell
-$ forge snapshot
+Run all tests:
+```bash
+forge test -vvv
 ```
 
-### Anvil
+## Paymaster Contract Overview
 
-```shell
-$ anvil
+The `Paymaster.sol` contract extends `BasePaymaster` and follows the `IPaymaster` interface defined in the ERC4337 specification. The interface specifies the functions required for a paymaster, while `BasePaymaster` provides basic functionality that must be customized.
+
+A key function in our paymaster contract is `validatePaymasterUserOp`, which determines whether the paymaster will cover a transaction. This function tells the EntryPoint contract if the paymaster agrees to pay for a given operation.
+
+The paymaster verifies this using a signature included in the `paymasterAndData` field of the user operation. The paymaster’s owner generates this signature by signing a hashed message with the following format:
+```text
+"Approved paymaster request for {Account Contract Address} with {Nonce of user operation} on chain ID {Chain ID of the network where user operation will be sent}"
 ```
 
-### Deploy
+If the signature is valid, the paymaster returns validation data indicating approval and vice versa.
 
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
+The `validatePaymasterUserOp` function returns two values: `context` and `validationData`. In this project, only `validationData` is used, and `context` remains empty. `context` is only needed if the paymaster’s `postOp` function must be triggered, which is not required here.
 
-### Cast
+## Interaction Between Account Contract, Paymaster, and EntryPoint Contract
 
-```shell
-$ cast <subcommand>
-```
+The [ERC4337 specification](https://eips.ethereum.org/EIPS/eip-4337#extension-paymasters) explains the full process in detail. Below is a brief overview of how user operation validation and execution work:
 
-### Help
+![userOp flow with paymaster](/assets/userop-flow-with-paymaster.png)
 
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+## Contributions
+
+Feedback and contributions are welcome. If you have suggestions for improvements, let me know.
+
