@@ -58,3 +58,16 @@ The [ERC4337 specification](https://eips.ethereum.org/EIPS/eip-4337#extension-pa
 
 Feedback and contributions are welcome. If you have suggestions for improvements, let me know.
 
+-------
+
+## Notes
+
+Found out that ECDSA signatures are actually 65 bytes long, not 64 like the first Google result says. The OpenZeppelin docs explain this in more detail.  
+
+Used Soldeer to add my own project as a dependency. First, I had to create a release for it, then install it using:  
+
+```bash
+forge soldeer install erc4337-simple-account~0.0.1 https://github.com/nikbhintade/erc4337-simple-account/archive/refs/tags/0.0.1.zip
+```  
+
+Had to update the remappings after that. Tried something new with Soldeer here. Also, the command didn’t work with a Git URL, so I had to use the zip file URL instead. Not sure why, but I’ll check later—just focusing on what works for now.

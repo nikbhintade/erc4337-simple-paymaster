@@ -5,6 +5,7 @@ libs = ["lib", "dependencies"]
 remappings = [
     "@openzeppelin/contracts/=dependencies/@openzeppelin-contracts-5.2.0/",
     "account-abstraction/=dependencies/eth-infinitism-account-abstraction-0.7/",
+    "simple-account/=dependencies/erc4337-simple-account-0.0.1/",
     "forge-std/=dependencies/forge-std-1.9.6/src/",
 ]
 
@@ -12,6 +13,7 @@ remappings = [
 forge-std = "1.9.6"
 "@openzeppelin-contracts" = "5.2.0"
 eth-infinitism-account-abstraction = "0.7"
+erc4337-simple-account = { version = "0.0.1", url = "https://github.com/nikbhintade/erc4337-simple-account/archive/refs/tags/0.0.1.zip" }
 
 [soldeer]
 remappings_generate = true

@@ -78,4 +78,26 @@ contract PaymasterTest is Test {
         assertEq(keccak256(context), keccak256(hex""));
         assertEq(validationData, SIG_VALIDATION_FAILED);
     }
+
+    function testValidatePaymasterUserOpReturnsCorrectDataOnInvalidSignatureLength() public {
+        PackedUserOperation memory userOp = PackedUserOperation({
+            sender: makeAddr("sender"),
+            nonce: 0,
+            initCode: hex"",
+            callData: hex"",
+            accountGasLimits: hex"",
+            preVerificationGas: 0,
+            gasFees: hex"",
+            paymasterAndData: hex"",
+            signature: hex""
+        });
+
+        userOp.paymasterAndData = abi.encodePacked(makeAddr("paymaster"), bytes32(hex""));
+
+        (bytes memory context, uint256 validationData) =
+            paymaster.expose_validatePaymasterUserOp(userOp, entryPoint.getUserOpHash(userOp), 0);
+
+        assertEq(keccak256(context), keccak256(hex""));
+        assertEq(validationData, SIG_VALIDATION_FAILED);
+    }
 }

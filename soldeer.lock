@@ -6,6 +6,13 @@ checksum = "6dbd0440446b2ed16ca25e9f1af08fc0c5c1e73e71fee86ae8a00daa774e3817"
 integrity = "4cb7f3777f67fdf4b7d0e2f94d2f93f198b2e5dce718b7062ac7c2c83e1183bd"
 
 [[dependencies]]
+name = "erc4337-simple-account"
+version = "0.0.1"
+url = "https://github.com/nikbhintade/erc4337-simple-account/archive/refs/tags/0.0.1.zip"
+checksum = "acb73e7fa5205b0731b0b260d2b3a53135766f1095af6590f5324c7baef28368"
+integrity = "06a5652812f32f9b82102872000406d8d7a957daf9a3203f6186f488eeae076f"
+
+[[dependencies]]
 name = "eth-infinitism-account-abstraction"
 version = "0.7"
 url = "https://soldeer-revisions.s3.amazonaws.com/eth-infinitism-account-abstraction/0_7_29-06-2024_08:28:06_eth-infinitism-account-abstraction-0.7.zip"

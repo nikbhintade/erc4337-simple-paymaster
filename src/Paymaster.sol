@@ -38,6 +38,12 @@ contract Paymaster is BasePaymaster {
             Strings.toString(block.chainid)
         );
 
+        // ECDSA signatures used here are 65 bytes long, please read following for more details
+        // https://docs.openzeppelin.com/contracts/2.x/utilities#checking_signatures_on_chain
+        if (bytes(userOp.paymasterAndData[52:]).length != 65) {
+            return (hex"", SIG_VALIDATION_FAILED);
+        }
+
         address signer = ECDSA.recover(keccak256(abi.encodePacked(message)), userOp.paymasterAndData[52:]);
 
         if (signer == owner()) {
